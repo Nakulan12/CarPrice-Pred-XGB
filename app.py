@@ -2,6 +2,7 @@ import pickle
 from flask import Flask, request, jsonify, render_template
 import pandas as pd
 import numpy as np
+<<<<<<< HEAD
 import os
 
 app = Flask(__name__)
@@ -18,6 +19,14 @@ except Exception as e:
     model = None
     scaler = None
     MODEL_LOADED = False
+=======
+
+app = Flask(__name__)
+
+# Load the trained model and scaler
+model = pickle.load(open('model.pkl', 'rb'))
+scaler = pickle.load(open('scaling.pkl', 'rb'))
+>>>>>>> 605a98f (Commit for web app)
 
 # Hardcoded label encoders (same as during training)
 label_encoders = {
@@ -33,6 +42,7 @@ label_encoders = {
 }
 categorical_cols = list(label_encoders.keys())
 
+<<<<<<< HEAD
 def mock_prediction(form_data):
     """Generate a realistic mock prediction when model is not available"""
     try:
@@ -164,3 +174,41 @@ if __name__ == "__main__":
     print("🚗 Starting Car Price Prediction Server...")
     print(f"📊 Model Status: {'Loaded' if MODEL_LOADED else 'Demo Mode'}")
     app.run(debug=True, host='0.0.0.0', port=5000)
+=======
+@app.route('/')
+def home():
+    return render_template('home.html')  # Optional: can remove if no frontend
+
+@app.route('/predict_api', methods=['POST'])
+def predict_api():
+    try:
+        # Get input JSON from request
+        data = request.json['data']
+        print("Input data:", data)
+
+        # Convert input to DataFrame
+        df = pd.DataFrame([data])
+
+        # Encode categorical features
+        for col in categorical_cols:
+            if col in df.columns:
+                df[col] = df[col].map(label_encoders[col])
+
+        # Check for any unmapped or invalid categories
+        if df[categorical_cols].isnull().any().any():
+            return jsonify({"error": "Invalid categorical value detected."}), 400
+
+        # Apply scaler to numeric + encoded features
+        scaled_data = scaler.transform(df)
+
+        # Predict with the model
+        prediction = model.predict(scaled_data)
+
+        return jsonify({'prediction': float(prediction[0])})
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+>>>>>>> 605a98f (Commit for web app)

@@ -5,4 +5,7 @@ seaborn
 matplotlib
 scikit-learn
 xgboost
+<<<<<<< HEAD
 gunicorn
+=======
+>>>>>>> 605a98f (Commit for web app)
