@@ -6,6 +6,10 @@ matplotlib
 scikit-learn
 xgboost
 <<<<<<< HEAD
+<<<<<<< HEAD
 gunicorn
 =======
 >>>>>>> 605a98f (Commit for web app)
+=======
+gunicorn
+>>>>>>> 9820a05 (all done with heruko)
