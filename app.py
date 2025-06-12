@@ -209,6 +209,38 @@ def predict_api():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        form_data = request.form.to_dict()
+        
+        # Separate and encode categorical fields
+        for col in categorical_cols:
+            if col in form_data:
+                val = form_data[col]
+                if val in label_encoders[col]:
+                    form_data[col] = label_encoders[col][val]
+                else:
+                    return render_template('home.html', prediction_text=f"Invalid value for {col}: {val}")
+        
+        # Convert everything to float now (all are numeric or encoded)
+        final_features = [float(val) for val in form_data.values()]
+
+        # Reshape and scale
+        scaled_input = scaler.transform(np.array(final_features).reshape(1, -1))
+
+        # Predict
+        output = model.predict(scaled_input)[0]
+
+        return render_template('home.html', prediction_text=f"The Car Price is ₹{output:.2f}")
+    
+    except Exception as e:
+        return render_template('home.html', prediction_text=f"Error occurred: {e}")
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 >>>>>>> 605a98f (Commit for web app)
