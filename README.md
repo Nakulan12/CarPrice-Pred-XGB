@@ -11,8 +11,8 @@
 8.[Heruko](https://heruko.com)
 
 Create a new ENV
-'''python -m venv myenv'''
+```python -m venv myenv```
 
-''' 
+``` 
 myenv\Scripts\activate
-'''
+```
