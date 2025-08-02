@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CarPredict AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--light-color);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo h2 {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .nav-logo i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+        }
+
+        .content-section:nth-child(even) {
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .section-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .section-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-content ul {
+            margin: 1.5rem 0;
+            padding-left: 2rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Info Cards */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
+        .info-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card i {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .info-card ul {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+
+        .info-card li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Performance Metrics Section */
+        .performance-metrics {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 0;
+            margin: 80px 0;
+            border-radius: 24px;
+            text-align: center;
+        }
+
+        .performance-metrics h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .performance-metrics .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-item h3 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .metric-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tech-item {
+            background: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .tech-item i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .tech-item h4 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .tech-item p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .info-cards {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .info-card {
+                padding: 2rem;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .metric-item h3 {
+                font-size: 2.5rem;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-metrics {
+                margin: 40px 0;
+                padding: 60px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .hero {
+                padding: 80px 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 60px 0;
+            }
+
+            .nav-logo h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-car"></i>
+                <h2>CarPredict AI</h2>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="{{ url_for('home') }}" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('predict_page') }}" class="nav-link">
+                        <i class="fas fa-calculator"></i> Predict
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('about') }}" class="nav-link active">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>About CarPredict AI</h1>
+                <p>Learn about our advanced machine learning technology and how we're revolutionizing automotive price prediction with cutting-edge AI algorithms.</p>
+            </div>
+        </section>
+
+        <!-- Project Overview -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Project Overview</h2>
+                <div class="section-content">
+                    <p>
+                        CarPredict AI is an advanced machine learning platform designed to provide accurate and reliable car price predictions. 
+                        Using state-of-the-art XGBoost algorithms, our system analyzes multiple vehicle parameters to deliver precise valuations 
+                        that help buyers, sellers, and dealers make informed decisions.
+                    </p>
+                    <p>
+                        Our platform combines comprehensive automotive data with sophisticated machine learning techniques to create a 
+                        powerful prediction engine that adapts to market trends and provides real-time insights into vehicle valuations.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stack -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Technology Stack</h2>
+                <div class="tech-stack">
+                    <div class="tech-item">
+                        <i class="fab fa-python"></i>
+                        <h4>Python</h4>
+                        <p>Core programming language for machine learning and data processing</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-brain"></i>
+                        <h4>XGBoost</h4>
+                        <p>Advanced gradient boosting framework for high-performance predictions</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-server"></i>
+                        <h4>Flask</h4>
+                        <p>Lightweight web framework for API development and deployment</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <h4>Pandas & NumPy</h4>
+                        <p>Data manipulation and numerical computing libraries</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-html5"></i>
+                        <h4>HTML/CSS/JS</h4>
+                        <p>Modern responsive frontend with interactive user interface</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <h4>Data Processing</h4>
+                        <p>Advanced preprocessing and feature engineering pipelines</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Performance -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Model Performance & Accuracy</h2>
+                <div class="info-cards">
+                    <div class="info-card">
+                        <h3><i class="fas fa-cogs"></i> XGBoost Algorithm</h3>
+                        <p>
+                            Our model uses XGBoost (Extreme Gradient Boosting), a powerful machine learning algorithm 
+                            known for its exceptional performance in regression tasks. XGBoost combines multiple weak 
+                            learners to create a robust prediction model with superior accuracy.
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-chart-line"></i> Feature Engineering</h3>
+                        <p>
+                            We analyze 23+ key vehicle parameters including engine specifications, fuel type, 
+                            transmission, age, mileage, and brand reputation to ensure comprehensive price evaluation.
+                        </p>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-shield-alt"></i> Data Validation</h3>
+                        <p>
+                            Our model undergoes rigorous testing and validation using cross-validation techniques 
+                            and real-world data to ensure consistent performance across different vehicle categories.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Metrics -->
+        <section class="performance-metrics">
+            <div class="container">
+                <h2>Performance Metrics</h2>
+                <p class="subtitle">Real-world performance statistics that demonstrate our model's reliability and accuracy</p>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <h3>95%+</h3>
+                        <p>Confidence Score</p>
+                    </div>
+                    <div class="metric-item">
+                        <h3>23+</h3>
+                        <p>Data Points</p>
+                    </div>
+                    <div class="metric-item">
+                        <h3>&lt;2s</h3>
+                        <p>Response Time</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Use Cases</h2>
+                <div class="info-cards">
+                    <div class="info-card">
+                        <h3><i class="fas fa-user"></i> Individual Buyers & Sellers</h3>
+                        <p>Get accurate market valuations before buying or selling your vehicle. Make informed decisions with confidence.</p>
+                        <ul>
+                            <li>Pre-purchase price verification</li>
+                            <li>Selling price optimization</li>
+                            <li>Market trend analysis</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-store"></i> Car Dealerships</h3>
+                        <p>Streamline inventory pricing and improve profit margins with data-driven valuations.</p>
+                        <ul>
+                            <li>Inventory pricing automation</li>
+                            <li>Trade-in value assessment</li>
+                            <li>Market positioning strategy</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="fas fa-building"></i> Financial Institutions</h3>
+                        <p>Enhance loan approval processes and risk assessment with accurate vehicle valuations.</p>
+                        <ul>
+                            <li>Auto loan risk assessment</li>
+                            <li>Collateral valuation</li>
+                            <li>Insurance claim processing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Enhancements -->
+        <section class="content-section">
+            <div class="container">
+                <h2 class="section-title">Future Enhancements</h2>
+                <div class="section-content">
+                    <p>We're continuously working to improve our platform with exciting new features:</p>
+                    <ul>
+                        <li><strong>Real-time Market Integration:</strong> Live market data feeds for dynamic pricing</li>
+                        <li><strong>Image Recognition:</strong> Vehicle condition assessment through photo analysis</li>
+                        <li><strong>Historical Trends:</strong> Price history and depreciation forecasting</li>
+                        <li><strong>API Access:</strong> Developer-friendly API for third-party integrations</li>
+                        <li><strong>Mobile App:</strong> Native mobile applications for iOS and Android</li>
+                        <li><strong>Advanced Filters:</strong> Location-based pricing and regional market variations</li>
+                        <li><strong>Bulk Processing:</strong> Enterprise features for processing multiple vehicles</li>
+                        <li><strong>Machine Learning Insights:</strong> Detailed explanations of prediction factors</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>CarPredict AI</h4>
+                    <p>Advanced machine learning for automotive price prediction. Trusted by dealers, buyers, and sellers worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <p><a href="{{ url_for('predict_page') }}">Price Prediction</a></p>
+                    <p><a href="{{ url_for('about') }}">Market Analysis</a></p>
+                    <p><a href="{{ url_for('home') }}">AI Technology</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <p><a href="{{ url_for('about') }}">Documentation</a></p>
+                    <p><a href="{{ url_for('home') }}">Help Center</a></p>
+                    <p><a href="{{ url_for('home') }}">Contact Us</a></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <p>XGBoost ML Model</p>
+                    <p>Real-time Processing</p>
+                    <p>Cloud Infrastructure</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 CarPredict AI. All rights reserved. | Powered by Advanced Machine Learning</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        });
+
+        // Counter animation for metrics
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                const suffix = element.textContent.includes('%') ? '%+' : 
+                              element.textContent.includes('<') ? 's' : '+';
+                element.textContent = Math.floor(current) + suffix;
+            }, 20);
+        }
+
+        // Trigger counter animation when metrics section is visible
+        const metricsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const metricItems = entry.target.querySelectorAll('.metric-item h3');
+                    metricItems.forEach(item => {
+                        const text = item.textContent;
+                        if (text.includes('95')) {
+                            item.textContent = '0%+';
+                            animateCounter(item, 95);
+                        } else if (text.includes('23')) {
+                            item.textContent = '0+';
+                            animateCounter(item, 23);
+                        } else if (text.includes('<2')) {
+                            item.textContent = '0s';
+                            setTimeout(() => {
+                                item.textContent = '<2s';
+                            }, 2000);
+                        }
+                    });
+                    metricsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const metricsSection = document.querySelector('.performance-metrics');
+        if (metricsSection) {
+            metricsObserver.observe(metricsSection);
+        }
+    </script>
+</body>
+</html>

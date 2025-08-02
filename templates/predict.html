@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction - CarPredict AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-md);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo h2 {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.5rem;
+        }
+
+        .nav-logo i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(37, 99, 235, 0.1);
+        }
+
+        /* Status Badge */
+        .status-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1001;
+        }
+
+        .status-badge.live {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .status-badge.demo {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Form Header */
+        .form-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .form-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow-xl);
+            padding: 3rem;
+            margin: 2rem auto;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Form Sections */
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        /* Form Grid */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group label i {
+            color: var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: white;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group input:valid,
+        .form-group select:valid {
+            border-color: var(--success-color);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .tooltip i {
+            color: var(--text-secondary);
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-full {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        /* Loading State */
+        .btn.loading {
+            pointer-events: none;
+        }
+
+        .btn.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .message.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .message.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .message.warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .form-title {
+                font-size: 2.5rem;
+            }
+
+            .form-card {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .form-title {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .nav-logo h2 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Badge -->
+    <div class="status-badge {% if model_status %}live{% else %}demo{% endif %}">
+        <i class="fas fa-{% if model_status %}check-circle{% else %}exclamation-triangle{% endif %}"></i>
+        {% if model_status %}Live Model{% else %}Demo Mode{% endif %}
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-car"></i>
+                <h2>CarPredict AI</h2>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="{{ url_for('home') }}" class="nav-link">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('predict_page') }}" class="nav-link active">
+                        <i class="fas fa-calculator"></i> Predict
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('about') }}" class="nav-link">
+                        <i class="fas fa-info-circle"></i> About
+                    </a>
+                </li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Form Header -->
+            <div class="form-header">
+                <h1 class="form-title">Car Price Prediction</h1>
+                <p class="form-subtitle">
+                    Enter your vehicle specifications below to get an accurate AI-powered price prediction. 
+                    All fields are required for optimal accuracy.
+                </p>
+            </div>
+
+            <div class="form-card">
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">0% Complete</div>
+                </div>
+
+                <!-- Error/Success Messages -->
+                {% if error_message %}
+                <div class="message error">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ error_message }}
+                </div>
+                {% endif %}
+
+                {% if not model_status %}
+                <div class="message warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Running in demo mode. Predictions are simulated for demonstration purposes.
+                </div>
+                {% endif %}
+                
+                <form action="{{ url_for('predict_form') }}" method="POST" class="prediction-form" id="predictionForm">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-info-circle"></i>
+                            Basic Information
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="symboling">
+                                    <i class="fas fa-shield-alt"></i>
+                                    Symboling Rating
+                                    <span class="tooltip">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span class="tooltiptext">Insurance risk rating (-3 to +3, where +3 is riskiest)</span>
+                                    </span>
+                                </label>
+                                <input type="number" id="symboling" name="symboling" min="-3" max="3" step="1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fueltype">
+                                    <i class="fas fa-gas-pump"></i>
+                                    Fuel Type
+                                </label>
+                                <select id="fueltype" name="fueltype" required>
+                                    <option value="">Select Fuel Type</option>
+                                    <option value="gas">Gasoline</option>
+                                    <option value="diesel">Diesel</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="aspiration">
+                                    <i class="fas fa-wind"></i>
+                                    Aspiration
+                                </label>
+                                <select id="aspiration" name="aspiration" required>
+                                    <option value="">Select Aspiration</option>
+                                    <option value="std">Standard (Natural)</option>
+                                    <option value="turbo">Turbocharged</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="doornumber">
+                                    <i class="fas fa-door-open"></i>
+                                    Number of Doors
+                                </label>
+                                <select id="doornumber" name="doornumber" required>
+                                    <option value="">Select Door Count</option>
+                                    <option value="two">Two Doors</option>
+                                    <option value="four">Four Doors</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="carbody">
+                                    <i class="fas fa-car-side"></i>
+                                    Body Style
+                                </label>
+                                <select id="carbody" name="carbody" required>
+                                    <option value="">Select Body Style</option>
+                                    <option value="sedan">Sedan</option>
+                                    <option value="hatchback">Hatchback</option>
+                                    <option value="wagon">Station Wagon</option>
+                                    <option value="convertible">Convertible</option>
+                                    <option value="hardtop">Hardtop</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="drivewheel">
+                                    <i class="fas fa-cog"></i>
+                                    Drive Wheel
+                                </label>
+                                <select id="drivewheel" name="drivewheel" required>
+                                    <option value="">Select Drive Type</option>
+                                    <option value="fwd">Front Wheel Drive (FWD)</option>
+                                    <option value="rwd">Rear Wheel Drive (RWD)</option>
+                                    <option value="4wd">Four Wheel Drive (4WD)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dimensions -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-ruler-combined"></i>
+                            Vehicle Dimensions
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="wheelbase">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                    Wheelbase (inches)
+                                </label>
+                                <input type="number" id="wheelbase" name="wheelbase" step="0.1" min="80" max="130" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="carlength">
+                                    <i class="fas fa-ruler-horizontal"></i>
+                                    Length (inches)
+                                </label>
+                                <input type="number" id="carlength" name="carlength" step="0.1" min="140" max="220" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="carwidth">
+                                    <i class="fas fa-arrows-alt-h"></i>
+                                    Width (inches)
+                                </label>
+                                <input type="number" id="carwidth" name="carwidth" step="0.1" min="60" max="80" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="carheight">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                    Height (inches)
+                                </label>
+                                <input type="number" id="carheight" name="carheight" step="0.1" min="47" max="75" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="curbweight">
+                                    <i class="fas fa-weight-hanging"></i>
+                                    Curb Weight (lbs)
+                                </label>
+                                <input type="number" id="curbweight" name="curbweight" step="1" min="1500" max="5000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Engine Specifications -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-engine"></i>
+                            Engine Specifications
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="enginelocation">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Engine Location
+                                </label>
+                                <select id="enginelocation" name="enginelocation" required>
+                                    <option value="">Select Location</option>
+                                    <option value="front">Front</option>
+                                    <option value="rear">Rear</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="enginetype">
+                                    <i class="fas fa-cogs"></i>
+                                    Engine Type
+                                </label>
+                                <select id="enginetype" name="enginetype" required>
+                                    <option value="">Select Engine Type</option>
+                                    <option value="dohc">DOHC (Double Overhead Cam)</option>
+                                    <option value="ohc">OHC (Overhead Cam)</option>
+                                    <option value="ohcf">OHCF</option>
+                                    <option value="ohcv">OHCV</option>
+                                    <option value="l">L-Type</option>
+                                    <option value="rotor">Rotary</option>
+                                    <option value="dohcv">DOHCV</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cylindernumber">
+                                    <i class="fas fa-circle"></i>
+                                    Number of Cylinders
+                                </label>
+                                <select id="cylindernumber" name="cylindernumber" required>
+                                    <option value="">Select Cylinders</option>
+                                    <option value="two">2 Cylinders</option>
+                                    <option value="three">3 Cylinders</option>
+                                    <option value="four">4 Cylinders</option>
+                                    <option value="five">5 Cylinders</option>
+                                    <option value="six">6 Cylinders</option>
+                                    <option value="eight">8 Cylinders</option>
+                                    <option value="twelve">12 Cylinders</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="enginesize">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Engine Size (cc)
+                                </label>
+                                <input type="number" id="enginesize" name="enginesize" step="1" min="60" max="400" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="fuelsystem">
+                                    <i class="fas fa-filter"></i>
+                                    Fuel System
+                                </label>
+                                <select id="fuelsystem" name="fuelsystem" required>
+                                    <option value="">Select Fuel System</option>
+                                    <option value="mpfi">MPFI (Multi Point Fuel Injection)</option>
+                                    <option value="2bbl">2BBL (2-Barrel Carburetor)</option>
+                                    <option value="1bbl">1BBL (1-Barrel Carburetor)</option>
+                                    <option value="4bbl">4BBL (4-Barrel Carburetor)</option>
+                                    <option value="idi">IDI (Indirect Injection)</option>
+                                    <option value="spfi">SPFI (Single Point Fuel Injection)</option>
+                                    <option value="mfi">MFI (Mechanical Fuel Injection)</option>
+                                    <option value="spdi">SPDI (Single Point Direct Injection)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="boreratio">
+                                    <i class="fas fa-circle-notch"></i>
+                                    Bore Ratio
+                                    <span class="tooltip">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span class="tooltiptext">Engine bore diameter in inches</span>
+                                    </span>
+                                </label>
+                                <input type="number" id="boreratio" name="boreratio" step="0.01" min="2.5" max="4.5" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stroke">
+                                    <i class="fas fa-arrows-alt-v"></i>
+                                    Stroke (inches)
+                                    <span class="tooltip">
+                                        <i class="fas fa-question-circle"></i>
+                                        <span class="tooltiptext">Piston stroke length in inches</span>
+                                    </span>
+                                </label>
+                                <input type="number" id="stroke" name="stroke" step="0.01" min="2.0" max="4.5" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="compressionratio">
+                                    <i class="fas fa-compress-arrows-alt"></i>
+                                    Compression Ratio
+                                </label>
+                                <input type="number" id="compressionratio" name="compressionratio" step="0.1" min="7" max="23" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance -->
+                    <div class="form-section">
+                        <h3 class="section-title">
+                            <i class="fas fa-rocket"></i>
+                            Performance Metrics
+                        </h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="horsepower">
+                                    <i class="fas fa-horse-head"></i>
+                                    Horsepower (HP)
+                                </label>
+                                <input type="number" id="horsepower" name="horsepower" step="1" min="48" max="500" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="peakrpm">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Peak RPM
+                                </label>
+                                <input type="number" id="peakrpm" name="peakrpm" step="1" min="4000" max="7000" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="citympg">
+                                    <i class="fas fa-city"></i>
+                                    City MPG
+                                </label>
+                                <input type="number" id="citympg" name="citympg" step="1" min="10" max="50" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="highwaympg">
+                                    <i class="fas fa-road"></i>
+                                    Highway MPG
+                                </label>
+                                <input type="number" id="highwaympg" name="highwaympg" step="1" min="15" max="60" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                        <i class="fas fa-calculator"></i>
+                        <span id="btnText">Predict Car Price</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 CarPredict AI. All rights reserved. | Powered by Advanced Machine Learning</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        });
+
+        // Form progress tracking
+        const form = document.getElementById('predictionForm');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+
+        function updateProgress() {
+            const inputs = form.querySelectorAll('input[required], select[required]');
+            const filledInputs = Array.from(inputs).filter(input => input.value.trim() !== '');
+            const progress = (filledInputs.length / inputs.length) * 100;
+            
+            progressFill.style.width = progress + '%';
+            progressText.textContent = Math.round(progress) + '% Complete';
+            
+            // Enable submit button when form is complete
+            if (progress === 100) {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.6';
+            }
+        }
+
+        // Add event listeners to all form inputs
+        form.addEventListener('input', updateProgress);
+        form.addEventListener('change', updateProgress);
+
+        // Initial progress check
+        updateProgress();
+
+        // Form submission with loading state
+        form.addEventListener('submit', function(e) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            btnText.textContent = 'Processing...';
+            
+            const icon = submitBtn.querySelector('i');
+            icon.className = 'fas fa-spinner';
+        });
+
+        // Input validation and formatting
+        document.getElementById('symboling').addEventListener('input', function() {
+            const value = parseInt(this.value);
+            if (value < -3) this.value = -3;
+            if (value > 3) this.value = 3;
+        });
+
+        // Real-time validation feedback
+        const inputs = form.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.style.borderColor = 'var(--success-color)';
+                } else {
+                    this.style.borderColor = 'var(--danger-color)';
+                }
+            });
+
+            input.addEventListener('focus', function() {
+                this.style.borderColor = 'var(--primary-color)';
+            });
+        });
+
+        // Auto-save form data to localStorage
+        function saveFormData() {
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                data[key] = value;
+            }
+            localStorage.setItem('carPredictionForm', JSON.stringify(data));
+        }
+
+        function loadFormData() {
+            const savedData = localStorage.getItem('carPredictionForm');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                Object.keys(data).forEach(key => {
+                    const input = form.querySelector(`[name="${key}"]`);
+                    if (input) {
+                        input.value = data[key];
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        // Save form data on input
+        form.addEventListener('input', saveFormData);
+        form.addEventListener('change', saveFormData);
+
+        // Load saved data on page load
+        window.addEventListener('load', loadFormData);
+
+        // Clear saved data on successful submission
+        form.addEventListener('submit', function() {
+            setTimeout(() => {
+                localStorage.removeItem('carPredictionForm');
+            }, 1000);
+        });
+
+        // Add smooth animations to form sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.form-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to submit form
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                if (!submitBtn.disabled) {
+                    form.submit();
+                }
+            }
+            
+            // Escape to clear form
+            if (e.key === 'Escape') {
+                if (confirm('Clear all form data?')) {
+                    form.reset();
+                    localStorage.removeItem('carPredictionForm');
+                    updateProgress();
+                }
+            }
+        });
+
+        // Add tooltips for better UX
+        const tooltips = document.querySelectorAll('.tooltip');
+        tooltips.forEach(tooltip => {
+            tooltip.addEventListener('mouseenter', function() {
+                const tooltipText = this.querySelector('.tooltiptext');
+                tooltipText.style.visibility = 'visible';
+                tooltipText.style.opacity = '1';
+            });
+            
+            tooltip.addEventListener('mouseleave', function() {
+                const tooltipText = this.querySelector('.tooltiptext');
+                tooltipText.style.visibility = 'hidden';
+                tooltipText.style.opacity = '0';
+            });
+        });
+    </script>
+</body>
+</html>
