@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Price Prediction - Predict</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>CarPredict</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="predict.html" class="nav-link active">Predict</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="form-card">
+                <h1 class="form-title">Car Price Prediction</h1>
+                <p class="form-subtitle">Enter your car's specifications to get an accurate price prediction</p>
+                
+                <form class="prediction-form" action="result.html" method="get">
+                    <div class="form-grid">
+                        <!-- Text Inputs -->
+                        <div class="form-group">
+                            <label for="symboling">Symboling</label>
+                            <input type="number" id="symboling" name="symboling" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wheelbase">Wheelbase</label>
+                            <input type="number" id="wheelbase" name="wheelbase" step="0.1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carlength">Car Length</label>
+                            <input type="number" id="carlength" name="carlength" step="0.1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carwidth">Car Width</label>
+                            <input type="number" id="carwidth" name="carwidth" step="0.1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carheight">Car Height</label>
+                            <input type="number" id="carheight" name="carheight" step="0.1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="curbweight">Curb Weight</label>
+                            <input type="number" id="curbweight" name="curbweight" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="enginesize">Engine Size</label>
+                            <input type="number" id="enginesize" name="enginesize" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="boreratio">Bore Ratio</label>
+                            <input type="number" id="boreratio" name="boreratio" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="stroke">Stroke</label>
+                            <input type="number" id="stroke" name="stroke" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="compressionratio">Compression Ratio</label>
+                            <input type="number" id="compressionratio" name="compressionratio" step="0.1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="horsepower">Horsepower</label>
+                            <input type="number" id="horsepower" name="horsepower" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="peakrpm">Peak RPM</label>
+                            <input type="number" id="peakrpm" name="peakrpm" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="citympg">City MPG</label>
+                            <input type="number" id="citympg" name="citympg" step="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="highwaympg">Highway MPG</label>
+                            <input type="number" id="highwaympg" name="highwaympg" step="1" required>
+                        </div>
+
+                        <!-- Dropdown Inputs -->
+                        <div class="form-group">
+                            <label for="fueltype">Fuel Type</label>
+                            <select id="fueltype" name="fueltype" required>
+                                <option value="">Select Fuel Type</option>
+                                <option value="gas">Gas</option>
+                                <option value="diesel">Diesel</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="aspiration">Aspiration</label>
+                            <select id="aspiration" name="aspiration" required>
+                                <option value="">Select Aspiration</option>
+                                <option value="std">Standard</option>
+                                <option value="turbo">Turbo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="doornumber">Door Number</label>
+                            <select id="doornumber" name="doornumber" required>
+                                <option value="">Select Door Number</option>
+                                <option value="two">Two</option>
+                                <option value="four">Four</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carbody">Car Body</label>
+                            <select id="carbody" name="carbody" required>
+                                <option value="">Select Car Body</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="hatchback">Hatchback</option>
+                                <option value="wagon">Wagon</option>
+                                <option value="convertible">Convertible</option>
+                                <option value="hardtop">Hardtop</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="drivewheel">Drive Wheel</label>
+                            <select id="drivewheel" name="drivewheel" required>
+                                <option value="">Select Drive Wheel</option>
+                                <option value="fwd">FWD</option>
+                                <option value="rwd">RWD</option>
+                                <option value="4wd">4WD</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="enginelocation">Engine Location</label>
+                            <select id="enginelocation" name="enginelocation" required>
+                                <option value="">Select Engine Location</option>
+                                <option value="front">Front</option>
+                                <option value="rear">Rear</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="enginetype">Engine Type</label>
+                            <select id="enginetype" name="enginetype" required>
+                                <option value="">Select Engine Type</option>
+                                <option value="dohc">DOHC</option>
+                                <option value="ohc">OHC</option>
+                                <option value="ohcf">OHCF</option>
+                                <option value="ohcv">OHCV</option>
+                                <option value="l">L</option>
+                                <option value="rotor">Rotary</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cylindernumber">Cylinder Number</label>
+                            <select id="cylindernumber" name="cylindernumber" required>
+                                <option value="">Select Cylinder Number</option>
+                                <option value="two">2</option>
+                                <option value="three">3</option>
+                                <option value="four">4</option>
+                                <option value="five">5</option>
+                                <option value="six">6</option>
+                                <option value="eight">8</option>
+                                <option value="twelve">12</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fuelsystem">Fuel System</label>
+                            <select id="fuelsystem" name="fuelsystem" required>
+                                <option value="">Select Fuel System</option>
+                                <option value="mpfi">MPFI</option>
+                                <option value="2bbl">2BBL</option>
+                                <option value="1bbl">1BBL</option>
+                                <option value="4bbl">4BBL</option>
+                                <option value="idi">IDI</option>
+                                <option value="spfi">SPFI</option>
+                                <option value="mfi">MFI</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-full">Predict Price</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Car Price Prediction. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
