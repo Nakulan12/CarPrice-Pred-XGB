@@ -2,9 +2,6 @@ import pickle
 from flask import Flask, request, jsonify, render_template
 import pandas as pd
 import numpy as np
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 import os
 
 app = Flask(__name__)
@@ -21,18 +18,11 @@ except Exception as e:
     model = None
     scaler = None
     MODEL_LOADED = False
-=======
->>>>>>> Nakulan
-
 app = Flask(__name__)
 
 # Load the trained model and scaler
 model = pickle.load(open('model.pkl', 'rb'))
 scaler = pickle.load(open('scaling.pkl', 'rb'))
-<<<<<<< HEAD
-=======
->>>>>>> 605a98f (Commit for web app)
->>>>>>> Nakulan
 
 # Hardcoded label encoders (same as during training)
 label_encoders = {
@@ -47,10 +37,6 @@ label_encoders = {
     'fuelsystem': {'mpfi': 4, '2bbl': 0, '1bbl': 1, '4bbl': 3, 'idi': 2, 'mfi': 5, 'spdi': 6, 'spfi': 7}
 }
 categorical_cols = list(label_encoders.keys())
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
 def mock_prediction(form_data):
     """Generate a realistic mock prediction when model is not available"""
     try:
@@ -182,8 +168,6 @@ if __name__ == "__main__":
     print("🚗 Starting Car Price Prediction Server...")
     print(f"📊 Model Status: {'Loaded' if MODEL_LOADED else 'Demo Mode'}")
     app.run(debug=True, host='0.0.0.0', port=5000)
-=======
->>>>>>> Nakulan
 @app.route('/')
 def home():
     return render_template('home.html')  # Optional: can remove if no frontend
@@ -246,13 +230,5 @@ def predict():
     except Exception as e:
         return render_template('home.html', prediction_text=f"Error occurred: {e}")
 
-
-
-
-
 if __name__ == "__main__":
     app.run(debug=True)
-<<<<<<< HEAD
-=======
->>>>>>> 605a98f (Commit for web app)
->>>>>>> Nakulan
